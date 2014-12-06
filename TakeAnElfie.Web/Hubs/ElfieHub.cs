@@ -27,7 +27,7 @@ namespace TakeAnElfie.Web.Hubs
             Clients.Group(CameraGroup).takeImage(Context.ConnectionId);
         }
 
-        public async void ProcessImage(string userId, string image)
+        public void ProcessImage(string userId, string image)
         {
             Clients.Client(userId).reviewImage(image);
 
@@ -38,7 +38,7 @@ namespace TakeAnElfie.Web.Hubs
             StorageCredentials credentials = new StorageCredentials("takeanelfie", "u3ihGBt89nJdjuVSbGI3I8Ggu5ff80RkuItFvCL1GRI5f46Yx4fQNYvdxofqUdBqamYbPUtT9Yx7nq5QXVJqOA==");
             CloudBlobContainer container = new CloudBlobContainer(new Uri("https://takeanelfie.blob.core.windows.net/originals"), credentials);
             CloudBlockBlob blob = container.GetBlockBlobReference(userId);
-            await blob.UploadFromStreamAsync(memoryStream);
+            blob.UploadFromStream(memoryStream);
         }
 
         public void ApproveImage()
