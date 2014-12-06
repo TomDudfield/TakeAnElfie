@@ -10,9 +10,7 @@ using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Blob;
-using Spring.Social.OAuth1;
-using Spring.Social.Twitter.Api;
-using Spring.Social.Twitter.Connect;
+using Tweetinvi;
 
 namespace TakeAnElfie.Web.Hubs
 {
@@ -75,16 +73,13 @@ namespace TakeAnElfie.Web.Hubs
                 CloudBlockBlob blob = container.GetBlockBlobReference(imageName);
                 blob.UploadFromStream(memoryStream);
             }
-            //TwitterServiceProvider serviceProvider = new TwitterServiceProvider("consumerKey", "consumerSecret");
-            //IOAuth1Operations oauthOperations = serviceProvider.OAuthOperations;
-            //OAuthToken requestToken = oauthOperations.FetchRequestTokenAsync("https://my-callback-url", null);
-            //string authorizeUrl = oauthOperations.BuildAuthorizeUrl(requestToken, null);
-            //Response.Redirect(authorizeUrl);
 
-            //// upon receiving the callback from the provider:
-            //OAuthToken accessToken = oauthOperations.ExchangeForAccessToken(new AuthorizedRequestToken(requestToken, oauthVerifier), null);
-            //ITwitter twitter = serviceProvider.GetApi(accessToken.Value, accessToken.Secret);
-            //twitter.TimelineOperations.UpdateStatusAsync("Spring.NET Social is awesome!");
+            var twitterCredentials = TwitterCredentials.CreateCredentials("2834910083-hQCWvhAmnArzAxc80paU9ftNWtfeMaeGyHWvPzP", "3ZxjrZUCju54cBQcbp6kDE1gS6uFzAPf37kNFDAzF9WUl", "iGyrQI7U1Y8SjuXmuwFy78fZa", "L3prxTxJ2kjWlFVmWmXNyzuS8XzsOHF80kPwGutDtc8NvvueFq");
+            TwitterCredentials.ExecuteOperationWithCredentials(twitterCredentials, () =>
+            {
+                var tweet = Tweet.CreateTweet(containerUrl + imageName);
+                tweet.Publish();
+            });
 
             Clients.Caller.showTweet(containerUrl + imageName);
         }
