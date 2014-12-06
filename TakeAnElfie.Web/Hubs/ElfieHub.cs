@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -18,6 +16,8 @@ namespace TakeAnElfie.Web.Hubs
     public class ElfieHub : Hub
     {
         private const string CameraGroup = "camera";
+        private const string ContainerUrl = "https://takeanelfie.blob.core.windows.net/";
+        private const string CdnUrl = "http://az697179.vo.msecnd.net/";
 
         public void ConnectCamera()
         {
@@ -31,7 +31,7 @@ namespace TakeAnElfie.Web.Hubs
 
         public void ProcessImage(string userId, string image)
         {
-            const string containerUrl = "https://takeanelfie.blob.core.windows.net/originals/";
+            const string containerFolder = "originals/";
             var base64Data = Regex.Match(image, @"data:image/(?<type>.+?),(?<data>.+)").Groups["data"].Value;
             var imageBytes = Convert.FromBase64String(base64Data);
             var imageName = userId + ".png";
@@ -41,17 +41,17 @@ namespace TakeAnElfie.Web.Hubs
                 memoryStream.Seek(0, SeekOrigin.Begin);
 
                 StorageCredentials credentials = new StorageCredentials("takeanelfie", "u3ihGBt89nJdjuVSbGI3I8Ggu5ff80RkuItFvCL1GRI5f46Yx4fQNYvdxofqUdBqamYbPUtT9Yx7nq5QXVJqOA==");
-                CloudBlobContainer container = new CloudBlobContainer(new Uri(containerUrl), credentials);
+                CloudBlobContainer container = new CloudBlobContainer(new Uri(ContainerUrl + containerFolder), credentials);
                 CloudBlockBlob blob = container.GetBlockBlobReference(imageName);
                 blob.UploadFromStream(memoryStream);
             }
 
-            Clients.Client(userId).reviewImage(containerUrl + imageName);
+            Clients.Client(userId).reviewImage(CdnUrl + containerFolder + imageName);
         }
 
         public void ApproveImage(string image)
         {
-            const string containerUrl = "https://takeanelfie.blob.core.windows.net/processed/";
+            const string containerFolder = "processed/";
 
             WebRequest request = WebRequest.Create(image);
             WebResponse response = request.GetResponse();
@@ -69,7 +69,7 @@ namespace TakeAnElfie.Web.Hubs
                 memoryStream.Seek(0, SeekOrigin.Begin);
 
                 StorageCredentials credentials = new StorageCredentials("takeanelfie", "u3ihGBt89nJdjuVSbGI3I8Ggu5ff80RkuItFvCL1GRI5f46Yx4fQNYvdxofqUdBqamYbPUtT9Yx7nq5QXVJqOA==");
-                CloudBlobContainer container = new CloudBlobContainer(new Uri(containerUrl), credentials);
+                CloudBlobContainer container = new CloudBlobContainer(new Uri(ContainerUrl + containerFolder), credentials);
                 CloudBlockBlob blob = container.GetBlockBlobReference(imageName);
                 blob.UploadFromStream(memoryStream);
             }
@@ -77,11 +77,11 @@ namespace TakeAnElfie.Web.Hubs
             var twitterCredentials = TwitterCredentials.CreateCredentials("2834910083-hQCWvhAmnArzAxc80paU9ftNWtfeMaeGyHWvPzP", "3ZxjrZUCju54cBQcbp6kDE1gS6uFzAPf37kNFDAzF9WUl", "iGyrQI7U1Y8SjuXmuwFy78fZa", "L3prxTxJ2kjWlFVmWmXNyzuS8XzsOHF80kPwGutDtc8NvvueFq");
             TwitterCredentials.ExecuteOperationWithCredentials(twitterCredentials, () =>
             {
-                var tweet = Tweet.CreateTweet(containerUrl + imageName);
+                var tweet = Tweet.CreateTweet(CdnUrl + containerFolder + imageName);
                 tweet.Publish();
             });
 
-            Clients.Caller.showTweet(containerUrl + imageName);
+            Clients.Caller.showTweet(CdnUrl + containerFolder + imageName);
         }
     }
 }
