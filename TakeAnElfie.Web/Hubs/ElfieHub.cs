@@ -10,9 +10,21 @@ namespace TakeAnElfie.Web.Hubs
     [HubName("ElfieHub")]
     public class ElfieHub : Hub
     {
-        public void Send(string message)
+        private const string CameraGroup = "camera";
+
+        public void ConnectCamera()
         {
-            Clients.Caller.showMessage("thanks for: " + message);
+            Groups.Add(Context.ConnectionId, CameraGroup);
+        }
+        
+        public void TakeImage()
+        {
+            Clients.Group(CameraGroup).takeImage(Context.ConnectionId);
+        }
+
+        public void ProcessImage(string userId, string image)
+        {
+            Clients.Client(userId).reviewImage(image);
         }
     }
 }

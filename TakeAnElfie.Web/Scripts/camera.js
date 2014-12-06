@@ -1,6 +1,6 @@
 ﻿
 (function(){
-	var gotMedia = function(localMedia){
+	var gotMedia = function(stream){
 		var video = document.getElementById("v");
 		var canvas = document.getElementById("c");
 		var button = document.getElementById("b");
@@ -23,14 +23,10 @@
 		debugger;
 	};
 
-	var btn = $('.takePhoto').on('click.takePhoto', function(){
-		takePhoto();
-	})
-
 	var setup = function(){
 		navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.getUserMedia;
 		if (navigator.getUserMedia) {
-		   navigator.getUserMedia({video: true},gotMedia,noMedia);
+		   navigator.getUserMedia({video: true},gotMedia(stream),noMedia(err));
 		} else {
 		   console.log("getUserMedia not supported");
 		}
