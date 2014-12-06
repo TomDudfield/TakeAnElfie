@@ -41,9 +41,5 @@
 	    elfie.server.processImage(userId, userImg);
 	};
 
-	var submitImage = function(image){
-
-	};
-
 })();
 
