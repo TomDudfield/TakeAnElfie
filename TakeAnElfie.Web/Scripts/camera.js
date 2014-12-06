@@ -23,7 +23,7 @@
 	};
 
 	var getImage = function(){
-		canvas.getContext("2d").drawImage(video, 0, 0, 600, 300, 0, 0, 600, 300);
+		canvas.getContext("2d").drawImage(video, 0, 0, 300, 600, 0, 0, 300, 600);
 		var img = canvas.toDataURL("image/png");
 		captured.src = img;
 		return img;
