@@ -31,6 +31,7 @@ namespace TakeAnElfie.Web.Hubs
             Bitmap bitmap = new Bitmap(HttpContext.Current.Server.MapPath("~/Content/Images/logo.png"));
             MemoryStream memoryStream = new MemoryStream();
             bitmap.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
+            memoryStream.Seek(0, SeekOrigin.Begin);
 
             StorageCredentials credentials = new StorageCredentials("takeanelfie", "u3ihGBt89nJdjuVSbGI3I8Ggu5ff80RkuItFvCL1GRI5f46Yx4fQNYvdxofqUdBqamYbPUtT9Yx7nq5QXVJqOA==");
             const string containerUrl = "https://takeanelfie.blob.core.windows.net/originals/";
