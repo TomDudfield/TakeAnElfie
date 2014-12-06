@@ -1,6 +1,6 @@
 ﻿
 (function(){
-	var gotMedia = function(localMedia){
+	var gotMedia = function(stream){
 		var video = document.getElementById("v");
 		var canvas = document.getElementById("c");
 		var button = document.getElementById("b");
