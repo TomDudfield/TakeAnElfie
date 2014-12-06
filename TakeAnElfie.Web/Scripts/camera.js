@@ -1,6 +1,9 @@
 ﻿
 (function(){
 
+	var submitImage = function(image){
+
+	}
 
 	var setup = function(){
 		navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.getUserMedia;
@@ -25,7 +28,7 @@
 					canvas.getContext("2d").drawImage(video, 0, 0, 300, 300, 0, 0, 300, 300);
 					var img = canvas.toDataURL("image/png");
 					captured.src = img;
-					debugger;	
+					submitImage(img);
 				};
 				}, function(err) { alert("there was an error " + err)});
 		} else {
