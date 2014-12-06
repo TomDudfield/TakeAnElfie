@@ -9,7 +9,7 @@
 				var video = document.getElementById("v");
 				var canvas = document.getElementById("c");
 				var button = document.getElementById("b");
-				var captured = document.getElementById("i");
+				var captured = document.getElementById("img");
 
 				if(window.URL){
 					video.src = window.URL.createObjectURL(stream);
