@@ -179,6 +179,13 @@
     <Content Include="App_Readme\Spring.Social.Twitter.txt" />
     <Content Include="Content\css\main.css" />
     <Content Include="Content\css\normalize.css" />
+    <Content Include="Content\Images\assets\beard 1.png" />
+    <Content Include="Content\Images\assets\hair 1.png" />
+    <Content Include="Content\Images\assets\hair 2.png" />
+    <Content Include="Content\Images\assets\hat 1.png" />
+    <Content Include="Content\Images\assets\hat 2.png" />
+    <Content Include="Content\Images\assets\hat 3.png" />
+    <Content Include="Content\Images\assets\hat 4.png" />
     <Content Include="Global.asax" />
     <None Include="Properties\PublishProfiles\TakeAnElfie.pubxml" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
@@ -222,7 +229,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50908</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
