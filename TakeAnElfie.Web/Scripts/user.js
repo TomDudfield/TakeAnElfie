@@ -10,3 +10,7 @@ $(document).ready(function() {
         connection.server.send('takeElfie');
     });
 });
+
+connection.client.debug = function() {
+    console.log(arguments.join(', '));
+};
