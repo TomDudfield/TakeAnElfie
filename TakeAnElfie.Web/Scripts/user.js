@@ -10,7 +10,7 @@ $('.take-elfie').click(function() {
 });
 
 $('.approve').click(function() {
-    elfie.server.approveImage();
+    elfie.server.approveImage($('.selfie').attr('src'));
 });
 
 elfie.client.reviewImage = function(image) {
