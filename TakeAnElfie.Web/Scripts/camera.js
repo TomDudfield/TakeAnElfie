@@ -23,7 +23,8 @@
 	};
 
 	var getImage = function(){
-
+		alert(video.videoWidth);
+		alert(video.videoHeight);
 		canvas.getContext("2d").drawImage(video, 0, 0, video.videoWidth, video.videoHeight, 0, 0, video.videoWidth, video.videoHeight);
 		var img = canvas.toDataURL("image/png");
 		captured.src = img;
