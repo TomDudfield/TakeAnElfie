@@ -1,31 +1,22 @@
 ﻿
 (function(){
-	var setup = function(){
-		navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.getUserMedia;
-		if (navigator.getUserMedia) {
-		   navigator.getUserMedia (
+	var gotMedia = function(localMedia){
+		var video = document.getElementById("v");
+		var canvas = document.getElementById("c");
+		var button = document.getElementById("b");
 
-		      // constraints
-		      {
-		         video: true,
-		         audio: false
-		      },
+		video.src = stream;
+		button.disabled = false;
+		button.onclick = function() {
+			canvas.getContext("2d").drawImage(video, 0, 0, 300, 300, 0, 0, 300, 300);
+			var img = canvas.toDataURL("image/png");
+			debugger;
+		};
+	};
 
-		      // successCallback
-		      function(localMediaStream) {
-		         console.log(localMediaStream);
-		         // Do something with the video here, e.g. video.play()
-		      },
-
-		      // errorCallback
-		      function(err) {
-		         console.log("The following error occured: " + err);
-		      }
-		   );
-		} else {
-		   console.log("getUserMedia not supported");
-		}
-	}();
+	var noMedia = function(err){
+		console.log("There was an error - " + err)
+	};
 
 	var takePhoto = function(){
 		alert("got yo picture")
@@ -36,5 +27,13 @@
 		takePhoto();
 	})
 
+	var setup = function(){
+		navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.getUserMedia;
+		if (navigator.getUserMedia) {
+		   navigator.getUserMedia({video: true},gotMedia,noMedia);
+		} else {
+		   console.log("getUserMedia not supported");
+		}
+	}();
 })();
 
