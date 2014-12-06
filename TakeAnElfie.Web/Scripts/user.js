@@ -9,6 +9,6 @@ $('.take-elfie').click(function() {
     elfie.server.send('takeElfie');
 });
 
-elfie.client.debug = function() {
+elfie.client.showMessage = function() {
     console.log(arguments.join(', '));
 };
