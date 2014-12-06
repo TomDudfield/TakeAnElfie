@@ -16,6 +16,7 @@ $('.approve').click(function() {
 elfie.client.reviewImage = function(image) {
     console.log(image);
 
+    $('.selfie').attr('src', image);
     $('.review-image').show();
 };
 
