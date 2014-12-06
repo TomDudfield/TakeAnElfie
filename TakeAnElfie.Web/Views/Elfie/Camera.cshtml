@@ -5,6 +5,8 @@
 <h3>@ViewBag.Message</h3>
 
 <p>Your picture wil be taken from here.</p>
-<button class="takePhoto">Take photo</button>
+<video id="v" width="300" height="300"></video>
+<input id="b" type="button" disabled="true" value="Take Picture"></input>
+<canvas id="c" style="display:none;" width="300" height="300"></canvas>
 
 <script src="~/Scripts/camera.js"></script>
