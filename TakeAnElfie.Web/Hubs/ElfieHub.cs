@@ -26,5 +26,11 @@ namespace TakeAnElfie.Web.Hubs
         {
             Clients.Client(userId).reviewImage(image);
         }
+
+        public void ApproveImage()
+        {
+
+            Clients.Caller.showTweet("tweet");
+        }
     }
 }
