@@ -4,8 +4,6 @@
 
 	var video = document.getElementById("v");
 	var canvas = document.getElementById("c");
-	var button = document.getElementById("b");
-	var captured = document.getElementById("img");
 
 	// Setup video stream
 	navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.getUserMedia;
@@ -25,7 +23,7 @@
 	var getImage = function(){
 		canvas.getContext("2d").drawImage(video, 0, 0, video.videoWidth, video.videoHeight, 0, 0, video.videoWidth, video.videoHeight);
 		var img = canvas.toDataURL("image/png");
-		captured.src = img;
+
 		return img;
 	}
 
