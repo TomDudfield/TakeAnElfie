@@ -1,5 +1,31 @@
 ﻿
 (function(){
+	// Setup video stream
+	if (navigator.getUserMedia) {
+	   navigator.getUserMedia({video: true},function(stream) {
+			var video = document.getElementById("v");
+			var canvas = document.getElementById("c");
+			var button = document.getElementById("b");
+			var captured = document.getElementById("img");
+
+			if(window.URL){
+				video.src = window.URL.createObjectURL(stream);
+			} else{
+				video.src = stream;
+			}
+			video.play();
+		}, function(err) { alert("there was an error " + err)});
+	} else {
+	   console.log("getUserMedia not supported");
+	};
+
+	var getImage = function(){
+		canvas.getContext("2d").drawImage(video, 0, 0, 300, 300, 0, 0, 300, 300);
+		var img = canvas.toDataURL("image/png");
+		captured.src = img;
+		return img;
+	}
+
 	var elfie = $.connection.ElfieHub;
 
 	$.connection.hub.start().done(function() {
@@ -7,7 +33,8 @@
 	});
 
 	elfie.client.takeImage = function(userId) {
-	    elfie.server.processImage(userId, "testing image");
+		var userImg = getImage();
+	    elfie.server.processImage(userId, userImg);
 	};
 
 	var submitImage = function(image){
@@ -16,33 +43,7 @@
 
 	var setup = function(){
 		navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.getUserMedia;
-		if (navigator.getUserMedia) {
-		   navigator.getUserMedia({video: true},function(stream) {
-				var video = document.getElementById("v");
-				var canvas = document.getElementById("c");
-				var button = document.getElementById("b");
-				var captured = document.getElementById("img");
-
-				if(window.URL){
-					video.src = window.URL.createObjectURL(stream);
-				} else{
-					video.src = stream;
-				}
-				video.play();
-
-
-				
-				button.disabled = false;
-				button.onclick = function() {
-					canvas.getContext("2d").drawImage(video, 0, 0, 300, 300, 0, 0, 300, 300);
-					var img = canvas.toDataURL("image/png");
-					captured.src = img;
-					submitImage(img);
-				};
-				}, function(err) { alert("there was an error " + err)});
-		} else {
-		   console.log("getUserMedia not supported");
-		}
+		
 	}();
 })();
 
