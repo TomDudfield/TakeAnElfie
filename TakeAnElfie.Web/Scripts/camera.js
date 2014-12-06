@@ -23,10 +23,6 @@
 		debugger;
 	};
 
-	var btn = $('.takePhoto').on('click.takePhoto', function(){
-		takePhoto();
-	})
-
 	var setup = function(){
 		navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.getUserMedia;
 		if (navigator.getUserMedia) {
