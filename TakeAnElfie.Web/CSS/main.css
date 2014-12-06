@@ -8,4 +8,8 @@ section {
 }
 
 h1{
+	background: url(../Images/logo.png) no-repeat 0 0;
+	background-size: 100% auto;
+	width:200px;
+	height: 80px;
 }
