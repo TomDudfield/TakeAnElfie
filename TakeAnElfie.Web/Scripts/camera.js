@@ -1,6 +1,7 @@
 ﻿
 (function(){
 	// Setup video stream
+	navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.getUserMedia;
 	if (navigator.getUserMedia) {
 	   navigator.getUserMedia({video: true},function(stream) {
 			var video = document.getElementById("v");
@@ -41,9 +42,5 @@
 
 	};
 
-	var setup = function(){
-		navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.getUserMedia;
-		
-	}();
 })();
 
