@@ -1,9 +1,17 @@
 ﻿
 (function(){
+	var elfie = $.connection.ElfieHub;
 
-	var takePhoto = function(){
-		alert("got yo picture")
-		debugger;
+	$.connection.hub.start().done(function() {
+	    elfie.server.connectCamera();
+	});
+
+	elfie.client.takeImage = function(userId) {
+	    elfie.server.processImage(userId, "testing image");
+	};
+
+	var submitImage = function(image){
+
 	};
 
 	var setup = function(){
@@ -13,19 +21,23 @@
 				var video = document.getElementById("v");
 				var canvas = document.getElementById("c");
 				var button = document.getElementById("b");
+				var captured = document.getElementById("img");
 
 				if(window.URL){
 					video.src = window.URL.createObjectURL(stream);
 				} else{
 					video.src = stream;
 				}
+				video.play();
+
 
 				
 				button.disabled = false;
 				button.onclick = function() {
 					canvas.getContext("2d").drawImage(video, 0, 0, 300, 300, 0, 0, 300, 300);
-					var img = canvas.toDataURL("image/png");	
-					alert("done");
+					var img = canvas.toDataURL("image/png");
+					captured.src = img;
+					submitImage(img);
 				};
 				}, function(err) { alert("there was an error " + err)});
 		} else {
