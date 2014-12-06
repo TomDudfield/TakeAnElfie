@@ -1,9 +1,18 @@
 ﻿
 (function(){
+	var elfie = $.connection.ElfieHub;
+
+	$.connection.hub.start().done(function() {
+	    elfie.server.connectCamera();
+	});
+
+	elfie.client.takeImage = function(userId) {
+	    elfie.server.processImage(userId, "testing image");
+	};
 
 	var submitImage = function(image){
 
-	}
+	};
 
 	var setup = function(){
 		navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.getUserMedia;
