@@ -6,7 +6,7 @@
 	var canvas = document.getElementById("c");
 	var button = document.getElementById("b");
 	var captured = document.getElementById("img");
-			
+
 	// Setup video stream
 	navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.getUserMedia;
 	if (navigator.getUserMedia) {
@@ -37,6 +37,7 @@
 
 	elfie.client.takeImage = function(userId) {
 		var userImg = getImage();
+		console.log(userImg);
 	    elfie.server.processImage(userId, userImg);
 	};
 
