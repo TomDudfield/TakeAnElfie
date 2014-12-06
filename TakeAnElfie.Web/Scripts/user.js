@@ -1,5 +1,5 @@
 ﻿// What connection string do i need
-var connection = $.connection.elfieHub;
+var connection = $.connection.ElfieHub;
 
 connection.hub.start().done(function() {
     console.log('Connection started');
