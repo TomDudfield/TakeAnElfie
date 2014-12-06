@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Web;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Blob;
+using Spring.Social.OAuth1;
+using Spring.Social.Twitter.Api;
+using Spring.Social.Twitter.Connect;
 
 namespace TakeAnElfie.Web.Hubs
 {
@@ -50,7 +54,12 @@ namespace TakeAnElfie.Web.Hubs
         public void ApproveImage(string image)
         {
             const string containerUrl = "https://takeanelfie.blob.core.windows.net/processed/";
-            Bitmap originalBitmap = new Bitmap(image);
+
+            WebRequest request = WebRequest.Create(image);
+            WebResponse response = request.GetResponse();
+            var responseStream = response.GetResponseStream();
+            Bitmap originalBitmap = new Bitmap(responseStream);
+
             Bitmap overlayBitmap = new Bitmap(HttpContext.Current.Server.MapPath("~/Content/Images/assets/hat 1.png"));
             var imageName = Context.ConnectionId + ".png";
             Graphics combinedGraphic = Graphics.FromImage(originalBitmap);
@@ -66,6 +75,16 @@ namespace TakeAnElfie.Web.Hubs
                 CloudBlockBlob blob = container.GetBlockBlobReference(imageName);
                 blob.UploadFromStream(memoryStream);
             }
+            //TwitterServiceProvider serviceProvider = new TwitterServiceProvider("consumerKey", "consumerSecret");
+            //IOAuth1Operations oauthOperations = serviceProvider.OAuthOperations;
+            //OAuthToken requestToken = oauthOperations.FetchRequestTokenAsync("https://my-callback-url", null);
+            //string authorizeUrl = oauthOperations.BuildAuthorizeUrl(requestToken, null);
+            //Response.Redirect(authorizeUrl);
+
+            //// upon receiving the callback from the provider:
+            //OAuthToken accessToken = oauthOperations.ExchangeForAccessToken(new AuthorizedRequestToken(requestToken, oauthVerifier), null);
+            //ITwitter twitter = serviceProvider.GetApi(accessToken.Value, accessToken.Secret);
+            //twitter.TimelineOperations.UpdateStatusAsync("Spring.NET Social is awesome!");
 
             Clients.Caller.showTweet(containerUrl + imageName);
         }
