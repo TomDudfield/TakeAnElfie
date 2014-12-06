@@ -47,9 +47,27 @@ namespace TakeAnElfie.Web.Hubs
             Clients.Client(userId).reviewImage(containerUrl + imageName);
         }
 
-        public void ApproveImage()
+        public void ApproveImage(string image)
         {
-            Clients.Caller.showTweet("tweet");
+            const string containerUrl = "https://takeanelfie.blob.core.windows.net/processed/";
+            Bitmap originalBitmap = new Bitmap(image);
+            Bitmap overlayBitmap = new Bitmap(HttpContext.Current.Server.MapPath("~/Content/Images/assets/hat 1.png"));
+            var imageName = Context.ConnectionId + ".png";
+            Graphics combinedGraphic = Graphics.FromImage(originalBitmap);
+            combinedGraphic.DrawImage(overlayBitmap, 0, 0, overlayBitmap.Width, overlayBitmap.Height);
+
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                originalBitmap.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
+                memoryStream.Seek(0, SeekOrigin.Begin);
+
+                StorageCredentials credentials = new StorageCredentials("takeanelfie", "u3ihGBt89nJdjuVSbGI3I8Ggu5ff80RkuItFvCL1GRI5f46Yx4fQNYvdxofqUdBqamYbPUtT9Yx7nq5QXVJqOA==");
+                CloudBlobContainer container = new CloudBlobContainer(new Uri(containerUrl), credentials);
+                CloudBlockBlob blob = container.GetBlockBlobReference(imageName);
+                blob.UploadFromStream(memoryStream);
+            }
+
+            Clients.Caller.showTweet(containerUrl + imageName);
         }
     }
 }
