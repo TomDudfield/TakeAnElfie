@@ -136,9 +136,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css\main.css" />
+    <Content Include="Content\css\normalize.css" />
     <Content Include="Global.asax" />
     <None Include="Properties\PublishProfiles\TakeAnElfie.pubxml" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
+    <Content Include="Content\Images\logo.png" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery.signalR-2.1.2.js" />
@@ -159,7 +162,6 @@
     <Content Include="Views\Elfie\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Content\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
