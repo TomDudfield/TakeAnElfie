@@ -1,10 +1,6 @@
 ﻿
 (function(){
 
-	var takePhoto = function(){
-		alert("got yo picture")
-		debugger;
-	};
 
 	var setup = function(){
 		navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.getUserMedia;
@@ -19,6 +15,8 @@
 				} else{
 					video.src = stream;
 				}
+				video.play();
+
 
 				
 				button.disabled = false;
