@@ -1,14 +1,16 @@
 ﻿
 (function(){
+	//setup dom refs
+
+	var video = document.getElementById("v");
+	var canvas = document.getElementById("c");
+	var button = document.getElementById("b");
+	var captured = document.getElementById("img");
+			
 	// Setup video stream
 	navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.getUserMedia;
 	if (navigator.getUserMedia) {
 	   navigator.getUserMedia({video: true},function(stream) {
-			var video = document.getElementById("v");
-			var canvas = document.getElementById("c");
-			var button = document.getElementById("b");
-			var captured = document.getElementById("img");
-
 			if(window.URL){
 				video.src = window.URL.createObjectURL(stream);
 			} else{
