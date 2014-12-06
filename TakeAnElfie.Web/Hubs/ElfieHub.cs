@@ -28,9 +28,18 @@ namespace TakeAnElfie.Web.Hubs
 
         public void ProcessImage(string userId, string image)
         {
-            MemoryStream memoryStream = new MemoryStream();
+            MemoryStream inputStream = new MemoryStream();
             var imageBytes = System.Text.Encoding.UTF8.GetBytes(image);
-            memoryStream.Write(imageBytes, 0, imageBytes.Length);
+            inputStream.Write(imageBytes, 0, imageBytes.Length);
+            inputStream.Seek(0, SeekOrigin.Begin);
+
+
+            Bitmap bitmap = new Bitmap(inputStream);
+            MemoryStream memoryStream = new MemoryStream();
+            bitmap.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
+
+
+
             memoryStream.Seek(0, SeekOrigin.Begin);
 
             StorageCredentials credentials = new StorageCredentials("takeanelfie", "u3ihGBt89nJdjuVSbGI3I8Ggu5ff80RkuItFvCL1GRI5f46Yx4fQNYvdxofqUdBqamYbPUtT9Yx7nq5QXVJqOA==");
