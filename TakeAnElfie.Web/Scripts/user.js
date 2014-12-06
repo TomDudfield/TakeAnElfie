@@ -6,9 +6,24 @@ $.connection.hub.start().done(function() {
 })
 
 $('.take-elfie').click(function() {
-    elfie.server.send('takeElfie');
+    elfie.server.takeImage();
 });
 
-elfie.client.showMessage = function(a) {
-    console.log(a);
+$('.approve').click(function() {
+    elfie.server.approveImage();
+});
+
+elfie.client.reviewImage = function(image) {
+    console.log(image);
+
+    $('.review-image').show();
 };
+
+elfie.client.showTweet = function(tweet) {
+    console.log(tweet);
+};
+
+
+$(document).ready(function() {
+    $('.review-image').hide();
+});
