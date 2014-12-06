@@ -26,7 +26,7 @@
 	var setup = function(){
 		navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.getUserMedia;
 		if (navigator.getUserMedia) {
-		   navigator.getUserMedia({video: true},gotMedia,noMedia);
+		   navigator.getUserMedia({video: true},gotMedia(stream),noMedia(err));
 		} else {
 		   console.log("getUserMedia not supported");
 		}
