@@ -5,7 +5,7 @@ $.connection.hub.start().done(function() {
     console.log('Connection started');
 })
 
-$('.take-elfie').on('click', function() {
+$('.take-elfie').click(function() {
     elfie.server.send('takeElfie');
 });
 
