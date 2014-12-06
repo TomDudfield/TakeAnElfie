@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace TakeAnElfie.Web.Controllers
 {
-    public class HomeController : Controller
+    public class ElfieController : Controller
     {
         public ActionResult Index()
         {
