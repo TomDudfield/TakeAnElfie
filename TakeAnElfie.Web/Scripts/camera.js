@@ -1,6 +1,7 @@
 ﻿
 (function(){
 	var setup = function(){
+		navigator.getUserMedia = navigator.webkitGetUserMedia || navigator.getUserMedia;
 		if (navigator.getUserMedia) {
 		   navigator.getUserMedia (
 
