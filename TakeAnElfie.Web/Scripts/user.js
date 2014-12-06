@@ -1,16 +1,16 @@
 ﻿// What connection string do i need
-var connection = $.connection.ElfieHub;
+var elfie = $.connection.ElfieHub;
 
-connection.hub.start().done(function() {
+$.connection.hub.start().done(function() {
     console.log('Connection started');
 })
 
 $(document).ready(function() {
     $('.take-elfie').on('click', function() {
-        connection.server.send('takeElfie');
+        elfie.server.send('takeElfie');
     });
 });
 
-connection.client.debug = function() {
+elfie.client.debug = function() {
     console.log(arguments.join(', '));
 };
