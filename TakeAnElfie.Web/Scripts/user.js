@@ -1,1 +1,1 @@
-﻿
+﻿alert('beep boop')
