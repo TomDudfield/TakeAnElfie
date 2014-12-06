@@ -38,7 +38,7 @@
 	elfie.client.takeImage = function(userId) {
 		var userImg = getImage();
 		debugger;
-	    elfie.server.processImage(userId, userImg);
+	    elfie.server.processImage(userId, "jjjj");
 	};
 
 	var submitImage = function(image){
