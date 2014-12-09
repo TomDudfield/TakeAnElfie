@@ -65,9 +65,7 @@ namespace TakeAnElfie.Web.Hubs
             using (var responseStream = response.GetResponseStream())
             {
                 if (responseStream != null)
-                {
                     originalBitmap = new Bitmap(responseStream);
-                }
             }
 
             if (originalBitmap == null)
@@ -99,12 +97,21 @@ namespace TakeAnElfie.Web.Hubs
 #endif
             }
 
-            var twitterCredentials = TwitterCredentials.CreateCredentials("2834910083-hQCWvhAmnArzAxc80paU9ftNWtfeMaeGyHWvPzP", "3ZxjrZUCju54cBQcbp6kDE1gS6uFzAPf37kNFDAzF9WUl", "iGyrQI7U1Y8SjuXmuwFy78fZa", "L3prxTxJ2kjWlFVmWmXNyzuS8XzsOHF80kPwGutDtc8NvvueFq");
-            TwitterCredentials.ExecuteOperationWithCredentials(twitterCredentials, () =>
+            var userAccessToken = ConfigurationManager.AppSettings["UserAccessToken"];
+            var userAccessSecret = ConfigurationManager.AppSettings["UserAccessSecret"];
+            var consumerKey = ConfigurationManager.AppSettings["ConsumerKey"];
+            var consumerSecret = ConfigurationManager.AppSettings["ConsumerSecret"];
+
+            if (!string.IsNullOrEmpty(userAccessToken) && !string.IsNullOrEmpty(userAccessSecret) &&
+                !string.IsNullOrEmpty(consumerKey) && !string.IsNullOrEmpty(consumerSecret))
             {
-                var tweet = Tweet.CreateTweet(imageUrl);
-                tweet.Publish();
-            });
+                var twitterCredentials = TwitterCredentials.CreateCredentials(userAccessToken, userAccessSecret, consumerKey, consumerSecret);
+                TwitterCredentials.ExecuteOperationWithCredentials(twitterCredentials, () =>
+                {
+                    var tweet = Tweet.CreateTweet(imageUrl);
+                    tweet.Publish();
+                });
+            }
 
             Clients.Caller.showTweet(imageUrl);
         }
