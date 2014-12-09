@@ -17,9 +17,6 @@ namespace TakeAnElfie.Web.Hubs
     public class ElfieHub : Hub
     {
         private const string CameraGroup = "camera";
-        private const string ContainerUrl = "https://takeanelfie.blob.core.windows.net/";
-        private const string ContainerName = "takeanelfie";
-        private const string CdnUrl = "http://az697179.vo.msecnd.net/";
 
         public void ConnectCamera()
         {
@@ -40,8 +37,6 @@ namespace TakeAnElfie.Web.Hubs
 
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["azureBlobStorage"].ConnectionString);
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-            //StorageCredentials credentials = new StorageCredentials("takeanelfie", "u3ihGBt89nJdjuVSbGI3I8Ggu5ff80RkuItFvCL1GRI5f46Yx4fQNYvdxofqUdBqamYbPUtT9Yx7nq5QXVJqOA==");
-            // CloudBlobContainer container = new CloudBlobContainer(new Uri(ContainerUrl + containerFolder), credentials);
             CloudBlobContainer container = blobClient.GetContainerReference(containerName);
             container.CreateIfNotExists();
             CloudBlockBlob blob = container.GetBlockBlobReference(imageName);
@@ -50,11 +45,11 @@ namespace TakeAnElfie.Web.Hubs
             {
                 memoryStream.Seek(0, SeekOrigin.Begin);
                 blob.UploadFromStream(memoryStream);
-
+                
 #if DEBUG
                 Clients.Client(userId).reviewImage(blob.Uri);
 #else
-                Clients.Client(userId).reviewImage(CdnUrl + containerName + "/" + imageName);
+                Clients.Client(userId).reviewImage(ConfigurationManager.AppSettings["CdnUrl"] + containerName + "/" + imageName);
 #endif
             }
         }
@@ -76,7 +71,7 @@ namespace TakeAnElfie.Web.Hubs
             }
 
             if (originalBitmap == null)
-                return;;
+                return;
 
             Bitmap overlayBitmap = new Bitmap(HttpContext.Current.Server.MapPath("~/Content/Images/assets/hat 1.png"));
             Graphics combinedGraphic = Graphics.FromImage(originalBitmap);
@@ -84,8 +79,6 @@ namespace TakeAnElfie.Web.Hubs
 
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["azureBlobStorage"].ConnectionString);
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-            //StorageCredentials credentials = new StorageCredentials("takeanelfie", "u3ihGBt89nJdjuVSbGI3I8Ggu5ff80RkuItFvCL1GRI5f46Yx4fQNYvdxofqUdBqamYbPUtT9Yx7nq5QXVJqOA==");
-            //CloudBlobContainer container = new CloudBlobContainer(new Uri(ContainerUrl + containerFolder), credentials);
             CloudBlobContainer container = blobClient.GetContainerReference(containerName);
             container.CreateIfNotExists();
 
@@ -102,7 +95,7 @@ namespace TakeAnElfie.Web.Hubs
 #if DEBUG
                 imageUrl = blob.Uri.ToString();
 #else
-                imageUrl = CdnUrl + containerName + "/" + imageName;
+                imageUrl = ConfigurationManager.AppSettings["CdnUrl"] + containerName + "/" + imageName;
 #endif
             }
 
